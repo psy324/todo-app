@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String
+  name      String
+  createdAt DateTime   @default(now())
+  todos     Todo[]
+  categories Category[]
+  tags      Tag[]
+}
+
+model Category {
+  id     String  @id @default(uuid())
+  name   String
+  color  String?
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  todos  Todo[]
+
+  @@unique([name, userId])
+}
+
+model Tag {
+  id     String    @id @default(uuid())
+  name   String
+  userId String
+  user   User      @relation(fields: [userId], references: [id])
+  todos  TodoTag[]
+
+  @@unique([name, userId])
+}
+
+model Todo {
+  id             String         @id @default(uuid())
+  title          String
+  description    String?
+  completed      Boolean        @default(false)
+  completedAt    DateTime?
+  dueDate        DateTime?
+  priority       Int            @default(0)
+  recurrenceRule String?
+  userId         String
+  categoryId     String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  user           User           @relation(fields: [userId], references: [id])
+  category       Category?      @relation(fields: [categoryId], references: [id])
+  tags           TodoTag[]
+  notifications  Notification[]
+}
+
+model TodoTag {
+  todoId String
+  tagId  String
+  todo   Todo   @relation(fields: [todoId], references: [id])
+  tag    Tag    @relation(fields: [tagId], references: [id])
+
+  @@id([todoId, tagId])
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  todoId      String
+  type        String
+  scheduledAt DateTime
+  sent        Boolean  @default(false)
+  todo        Todo     @relation(fields: [todoId], references: [id])
+}

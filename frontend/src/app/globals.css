@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0C0B09;
+  --surface: #131210;
+  --surface-elevated: #1A1816;
+  --surface-hover: #1F1D1A;
+  --border: #252220;
+  --border-mid: #342F27;
+  --border-accent: #6E5218;
+  --text: #E8DFD0;
+  --text-2: #78705E;
+  --text-3: #4A4438;
+  --gold: #C09030;
+  --gold-light: #D8A844;
+  --gold-bg: rgba(192, 144, 48, 0.1);
+  --gold-border: rgba(192, 144, 48, 0.3);
+  --red: #B83028;
+  --red-bg: rgba(184, 48, 40, 0.08);
+  --overdue: #C84C2C;
+  --green: #5a8a50;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-instrument), -apple-system, sans-serif;
+  --font-mono: var(--font-dm-mono), "SF Mono", "Courier New", monospace;
+  --radius: 6px;
+  --transition: 150ms ease;
+  --sidebar-width: 220px;
+  --header-height: 52px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Subtle grain texture */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+::selection {
+  background: rgba(192, 144, 48, 0.25);
+  color: var(--text);
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-mid);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-3);
+}
+
+/* Base form elements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="datetime-local"],
+textarea,
+select {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="datetime-local"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 3px rgba(192, 144, 48, 0.08);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-3);
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234A4438' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 24px;
+}
+
+option {
+  background: #1a1816;
+  color: var(--text);
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--gold);
+  color: #0C0B09;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--gold-light);
+}
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-2);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-ghost:hover:not(:disabled) {
+  border-color: var(--border-accent);
+  color: var(--text);
+  background: var(--surface-hover);
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  color: var(--text-3);
+  cursor: pointer;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition), background var(--transition);
+  padding: 4px;
+}
+.btn-icon:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+.btn-icon.danger:hover {
+  color: var(--red);
+  background: var(--red-bg);
+}
+
+/* Form label */
+.form-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin-bottom: 5px;
+}
+
+/* Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.card-elevated {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius);
+}
+
+/* Todo item hover reveals actions */
+.todo-item .todo-actions {
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.todo-item:hover .todo-actions {
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes checkPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-fade-slide {
+  animation: fadeSlideDown 220ms ease forwards;
+}
+
+.animate-fade {
+  animation: fadeIn 200ms ease forwards;
+}
